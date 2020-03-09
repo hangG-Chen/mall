@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-03 12:00:19
+ * @LastEditTime: 2020-03-06 15:46:35
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \mall\src\components\common\navbar\NavBar.vue
+ -->
 <template>
   <div class="nav-bar">
     <div class="left"><slot name="left"></slot></div>
@@ -14,6 +22,7 @@
 
 <style scoped>
   .nav-bar {
+    width: 100%;
     height: 44px;
     line-height: 44px;
     display: flex;

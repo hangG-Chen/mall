@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-01 17:12:32
+ * @LastEditTime: 2020-03-06 15:47:16
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \mall\src\components\common\tabbar\TabBar.vue
+ -->
 <template>
   <div id="tab-bar">
     <slot></slot>
@@ -12,6 +20,7 @@
 
 <style scoped>
  #tab-bar {
+    width: 100%;
     display: flex;
     position: fixed;
     bottom: 0;

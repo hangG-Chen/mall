@@ -1,9 +1,17 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-04 10:49:31
+ * @LastEditTime: 2020-03-06 15:11:13
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \mall\src\network\request.js
+ */
 import axios from 'axios'
 
-export default function request(config) {
+export function request(config) {
   const instance = axios.create({
-    baseURL = "http://123.207.32.32:8000/api/wh",
-    // baseURL = "http://106.54.54.237:8000/api/wh",
+    // baseURL: "http://123.207.32.32:8000/api/wh",
+    baseURL: "http://106.54.54.237:8000/api/wh",
     timeout: 5000
   });
   instance.interceptors.request.use(config => {
@@ -11,7 +19,7 @@ export default function request(config) {
   },err => {
     return err    
   });
-  instance.interceptors.reponse.use(res => {
+  instance.interceptors.response.use(res => {
     return res.data
   }, err => {
     console.log(err)
