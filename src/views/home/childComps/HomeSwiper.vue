@@ -1,5 +1,13 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-03-06 17:10:32
+ * @LastEditTime: 2020-03-09 14:50:50
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \mall\src\views\home\childComps\HomeSwiper.vue
+ -->
 <template>
-  <div>
+  <div id="home-swiper">
     <swiper>
       <swiper-item v-for="(item, index) in banners" :key="index">
         <a :href="item.link">
@@ -30,5 +38,5 @@
 </script>
 
 <style scoped>
-
+  
 </style>

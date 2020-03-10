@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-03-04 10:49:31
- * @LastEditTime: 2020-03-06 15:11:13
- * @LastEditors: your name
+ * @LastEditTime: 2020-03-09 14:23:05
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\network\request.js
  */
@@ -10,8 +10,8 @@ import axios from 'axios'
 
 export function request(config) {
   const instance = axios.create({
-    // baseURL: "http://123.207.32.32:8000/api/wh",
-    baseURL: "http://106.54.54.237:8000/api/wh",
+    baseURL: "http://123.207.32.32:8000/api/wh",
+    // baseURL: "http://106.54.54.237:8000/api/wh",
     timeout: 5000
   });
   instance.interceptors.request.use(config => {

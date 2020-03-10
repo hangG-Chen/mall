@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-01 17:12:32
- * @LastEditTime: 2020-03-06 15:47:16
- * @LastEditors: your name
+ * @LastEditTime: 2020-03-09 14:44:37
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\components\common\tabbar\TabBar.vue
  -->
@@ -27,6 +27,7 @@
     left: 0;
     right: 0;
     background-color: #f6f6f6;
-    box-shadow:  0 -3px 5px rgba(111, 111, 111, .1)
+    box-shadow:  0 -3px 5px rgba(111, 111, 111, .15);
+    padding-top: 4px;
   }
 </style>
