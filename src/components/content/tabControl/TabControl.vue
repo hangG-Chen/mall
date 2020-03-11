@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-09 15:09:03
- * @LastEditTime: 2020-03-10 01:40:42
+ * @LastEditTime: 2020-03-11 17:58:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\components\common\tabControl\TabControl.vue
@@ -37,7 +37,8 @@
     },
     methods: {
       itemClick(i) {
-        this.currentIndex = i
+        this.currentIndex = i;
+        this.$emit("tabClick", i);
       }
     },
   }
@@ -52,6 +53,7 @@
     line-height: 15px;
     padding: 10px;
     background-color: #fff;
+    z-index: 99;
   }
   .tab-control-item {
     flex: 1;
