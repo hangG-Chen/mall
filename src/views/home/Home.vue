@@ -1,31 +1,32 @@
-<!--
- * @Author: your name
- * @Date: 2020-03-01 18:43:57
- * @LastEditTime: 2020-03-11 19:22:58
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \mall\src\views\home\Home.vue
- -->
 <template>
   <div id="home">
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners" />
-    <recommend-view :recommend="recommend"></recommend-view>
-    <feature-view></feature-view>
-    <tab-control 
-    class="tab-control" 
-    :titles="['流行', '新款', '精选']"
-    @tabClick="tabClick"
-    ></tab-control>
-    <goods-list :goods="showGoods" ></goods-list>
+    <scroll class="home-wrap" 
+        ref="homescroll"
+        :probe-type="3"
+        @scroll="contentScroll"
+        @pullingUp="loadMore">
+      <div>
+        <home-swiper :banners="banners" />
+        <recommend-view :recommend="recommend"></recommend-view>
+        <feature-view></feature-view>
+        <tab-control class="tab-control" 
+                    :titles="['流行', '新款', '精选']"
+                    @tabClick="tabClick"></tab-control>
+        <goods-list :goods="showGoods" ></goods-list>
+      </div>
+    </scroll>
+    <back-top class="backtop" @click.native="backClick" v-show="isBackTopShow"></back-top>
   </div>
 </template>
 
 <script>
   import NavBar from "components/common/navbar/NavBar";
   import TabControl from 'components/content/tabControl/TabControl';
+  import Scroll from "components/common/scroll/Scroll"
+  import BackTop from 'components/content/backTop/BackTop';
 
   import HomeSwiper from './childComps/HomeSwiper';
   import RecommendView from './childComps/RecommendView.vue';
@@ -37,15 +38,18 @@
 
 
 
+
   export default {
     name: 'Home',
     components: {
       NavBar,
+      Scroll,
       HomeSwiper,
       RecommendView,
       FeatureView,
       TabControl,
-      GoodsList
+      GoodsList,
+      BackTop
     },
     data(){
       return {
@@ -56,7 +60,8 @@
           'new': {page: 0, list: [] },
           'sell': {page: 0, list: [] },
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isBackTopShow: false
       }
     },
     computed: {
@@ -75,7 +80,7 @@
       /**
        * 事件监听相关
        */
-      tabClick(i){
+      tabClick(i) {
         switch(i){
           case 0:  
             this.currentType = "pop";
@@ -88,10 +93,22 @@
             break
         }
       },
+      backClick() {
+        this.$refs.homescroll.scrollTo(0, 0, 500);
+        
+      },
+      contentScroll(position) {
+        this.isBackTopShow = -position.y > 1000
+      },
+      loadMore() {
+        this.getHomeGoods(this.currentType);
+        this.$refs.homescroll.refresh();
+      },
+      
       /**
        * 网络请求相关
        */
-      getHomeMultidata(){ 
+      getHomeMultidata() { 
         getHomeMultidata().then(res => {
           this.banners = res.data.banner.list;
           this.recommend = res.data.recommend.list;
@@ -102,16 +119,17 @@
         getHomeGoods(type, page).then(res => {
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1;
+          this.$refs.homescroll.finishPullUp();
         })
       },
-  
+
     }
   }
 </script>
-<style>
+<style scoped>
 #home {
-  margin-top: 44px;
-  margin-bottom: 49px;
+  height: 100vh;
+  /* position: relative; */
 }
 .home-nav {
   background-color: var(--color-tint);
@@ -119,16 +137,26 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 99;
-}
-.test {
-  width: 100%;
-  padding: 50px;
-  height: 1000px;
-  background-color: #3e4;
+  z-index: 9;
 }
 .tab-control {
   position: sticky;
   top: 44px;
+  z-index: 9
 }
+.home-wrap{
+  box-sizing: content-box;
+  overflow: hidden;
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+}
+.backtop {
+  position: fixed;
+  right: 10px;
+  bottom: 55px;
+  z-index: 10;
+ }
 </style>

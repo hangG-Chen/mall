@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-03 12:00:19
- * @LastEditTime: 2020-03-06 15:46:35
- * @LastEditors: your name
+ * @LastEditTime: 2020-03-15 12:21:40
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\components\common\navbar\NavBar.vue
  -->
@@ -22,11 +22,16 @@
 
 <style scoped>
   .nav-bar {
+    position: relative;
+    
     width: 100%;
+    top: 0;
+    display: flex;
+
     height: 44px;
     line-height: 44px;
-    display: flex;
     text-align: center;
+    
     box-shadow: 0 1px 1px rgba(100, 100, 100, 0.1)
   }
   .left {
