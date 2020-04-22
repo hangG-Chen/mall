@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-06 17:10:32
- * @LastEditTime: 2020-03-09 14:50:50
+ * @LastEditTime: 2020-03-19 02:33:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\views\home\childComps\HomeSwiper.vue
@@ -11,7 +11,7 @@
     <swiper>
       <swiper-item v-for="(item, index) in banners" :key="index">
         <a :href="item.link">
-          <img :src="item.image" alt="">
+          <img :src="item.image" alt="" @load="swiperImgLoad">
         </a>
       </swiper-item>
     </swiper>
@@ -30,9 +30,22 @@
         }
       }
     },
+    data() {
+      return {
+        isLoad: false
+      }
+    },
     components: {
       Swiper,
       SwiperItem
+    },
+    methods: {
+      swiperImgLoad() {
+        if(!this.isLoad) {
+          this.$emit('swiperImgLoad');
+          this.isLoad = true
+        }
+      }
     }
   }
 </script>

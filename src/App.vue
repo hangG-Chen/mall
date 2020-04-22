@@ -1,14 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-26 18:19:02
- * @LastEditTime: 2020-03-09 14:42:44
+ * @LastEditTime: 2020-03-31 16:16:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\App.vue
  -->
 <template>
   <div id="app">
-    <router-view />
+    <keep-alive exclude="Detail">
+      <router-view />
+    </keep-alive>
     <main-tab-bar />
   </div>
 </template>

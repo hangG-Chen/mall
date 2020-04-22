@@ -3,16 +3,22 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control class="fixed" 
+      ref="tabControl1"
+      :titles="['流行', '新款', '精选']"
+      @tabClick="tabClick"
+      v-show="isTabFixed"></tab-control>
     <scroll class="home-wrap" 
         ref="homescroll"
         :probe-type="3"
+        :pull-up-load="true"
         @scroll="contentScroll"
         @pullingUp="loadMore">
       <div>
-        <home-swiper :banners="banners" />
+        <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad"/>
         <recommend-view :recommend="recommend"></recommend-view>
         <feature-view></feature-view>
-        <tab-control class="tab-control" 
+        <tab-control ref="tabControl2"
                     :titles="['流行', '新款', '精选']"
                     @tabClick="tabClick"></tab-control>
         <goods-list :goods="showGoods" ></goods-list>
@@ -34,10 +40,6 @@
   import GoodsList from 'components/content/goods/GoodsList.vue';
 
   import { getHomeMultidata, getHomeGoods } from 'network/home';
-
-
-
-
 
   export default {
     name: 'Home',
@@ -61,7 +63,10 @@
           'sell': {page: 0, list: [] },
         },
         currentType: 'pop',
-        isBackTopShow: false
+        isBackTopShow: false,
+        tabOffsetTop: 0,
+        isTabFixed: false,
+        saveY: 0
       }
     },
     computed: {
@@ -70,11 +75,30 @@
       }
     },
     created() {
+      //获取首页数据
       this.getHomeMultidata();
-      
+      //获取商品数据
       this.getHomeGoods('pop');
       this.getHomeGoods('new');
       this.getHomeGoods('sell');
+ 
+      
+    },
+    mounted() {
+      //获取最新better-scroll滚动条的高度
+      const refresh = this.debounce(this.$refs.homescroll.refresh, 50)
+      this.$bus.$on("itemImgLoad", () => {
+        refresh()
+      });
+      
+    },
+    activated() {
+      this.$refs.homescroll.refresh();
+      this.$refs.homescroll.scrollTo(0, this.saveY, 0);
+      
+    },
+    deactivated() {
+      this.saveY = this.$refs.homescroll.scroll ? this.$refs.homescroll.scroll.y : 0;
     },
     methods: {
       /**
@@ -91,18 +115,36 @@
           case 2:  
             this.currentType = "sell";
             break
-        }
+        };
+        this.$refs.tabControl1.currentIndex = i;
+        this.$refs.tabControl2.currentIndex = i;
       },
       backClick() {
         this.$refs.homescroll.scrollTo(0, 0, 500);
         
       },
       contentScroll(position) {
-        this.isBackTopShow = -position.y > 1000
+        //判断BackTop是否显示
+        this.isBackTopShow = -position.y > 1000;
+        this.isTabFixed = -position.y > this.tabOffsetTop;
       },
       loadMore() {
         this.getHomeGoods(this.currentType);
-        this.$refs.homescroll.refresh();
+      },
+      swiperImgLoad() {
+        //获取tabControl的offsetTop
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;      
+      },
+      //防抖函数
+      debounce(func, delay) {
+        let timer = null;
+        return function(...args) {
+          if(timer) clearTimeout(timer);
+          
+          timer = setTimeout(() => {
+            func.apply(this, args)
+          }, delay)
+        }
       },
       
       /**
@@ -123,7 +165,10 @@
         })
       },
 
-    }
+    },
+    
+    
+    
   }
 </script>
 <style scoped>
@@ -134,15 +179,22 @@
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
-  position: fixed;
+  /* position: fixed;
   left: 0;
   top: 0;
-  z-index: 9;
+  z-index: 9; */
 }
 .tab-control {
   position: sticky;
   top: 44px;
   z-index: 9
+}
+.fixed {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  z-index: 9;
 }
 .home-wrap{
   box-sizing: content-box;

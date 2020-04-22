@@ -1,14 +1,14 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-10 12:56:32
- * @LastEditTime: 2020-03-11 15:47:29
+ * @LastEditTime: 2020-03-24 14:09:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\components\content\goods\GoodsListItem.vue
  -->
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.show.img" alt />
+  <div class="goods-item" @click="itemClick">
+    <img :src="goodsItem.show.img" @load="imgLoad"/>
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">￥{{goodsItem.price}}</span>
@@ -26,6 +26,15 @@ export default {
       default() {
         return [];
       }
+    }
+  },
+  methods: {
+    imgLoad() {
+      this.$bus.$emit("itemImgLoad");
+    },
+    itemClick() {
+      console.log(this.goodsItem.iid);
+      this.$router.push(`/detail/${this.goodsItem.iid}`)
     }
   }
 };

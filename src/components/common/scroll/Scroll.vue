@@ -2,7 +2,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-03-13 18:18:08
- * @LastEditTime: 2020-03-16 19:54:37
+ * @LastEditTime: 2020-03-23 16:00:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\components\common\scroll\Scroll.vue
@@ -32,14 +32,10 @@
       click: {
         type: Boolean,
         default: true
-      }
-    },
-    methods: {
-      scrollTo(x, y, time=300) {
-        this.scroll.scrollTo(x, y, time)
       },
-      finishPullUp() {
-        this.scroll.finishPullUp();
+      pullUpLoad: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -51,17 +47,40 @@
 
       });
       
-      this.scroll.on("scroll",position => {
-        this.$emit("scroll", position)
-      });
+      
       this.scroll.on("pullingUp",el => {
         this.$emit("pullingUp");
       });
       // this.scroll.on("pullingDown",el => {
       //   console.log("下拉刷新");
       // });
+      if(this.probeType == 2 || this.probeType == 3){
+        this.scroll.on("scroll",position => {
+          this.$emit("scroll", position)
+        });
+      }
+      if(this.pullUpLoad) {
+        this.scroll.on("pullingUp",() => {
+          this.$emit("pullingUp");
+        })
+      }
       
-    }
+    },
+    methods: {
+      scrollTo(x, y, time=300) {
+        this.scroll && this.scroll.scrollTo(x, y, time)
+      },
+      finishPullUp() {
+        this.scroll && this.scroll.finishPullUp();
+      },
+      refresh() {
+        this.scroll && this.scroll.refresh();
+      },
+      // getScrollY() {
+      //   return this.scroll ? this.scroll.y : 0
+      // }
+    },
+    
   }
 </script>
 
