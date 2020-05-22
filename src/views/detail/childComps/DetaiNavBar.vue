@@ -2,14 +2,14 @@ import NavBar from 'components/common/navbar/NavBar';
 <!--
  * @Author: your name
  * @Date: 2020-03-24 14:23:09
- * @LastEditTime: 2020-03-25 15:34:24
+ * @LastEditTime: 2020-05-08 18:06:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \mall\src\views\detail\childComps\DetaiNavBar.vue
  -->
 <template>
   <div>
-    <nav-bar>
+    <nav-bar class="nav-bar">
       <div slot="left" class="back" @click="backClick">
         <img src="~assets/img/common/back.svg" alt="">
       </div>
@@ -50,6 +50,11 @@ import NavBar from 'components/common/navbar/NavBar';
 </script>
 
 <style scoped>
+  .nav-bar {
+    background-color: #fff;
+    position: relative;
+    z-index: 9;
+  }
   .title {
     display: flex;
     justify-content: center;
